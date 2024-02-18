@@ -5,6 +5,7 @@ import { InvoiceDetail } from "./components/InvoiceDetail";
 import { ListItems } from "./components/ListItems";
 import { TotalView } from "./components/TotalView";
 import { useEffect, useState } from "react";
+import { FormItems } from "./components/FormItems";
 
 const invoiceInital = {
   id: 0,
@@ -36,13 +37,8 @@ export function InvoiceApp() {
     company,
   } = invoice;
   const [items, setItems] = useState([]);
-  const [invoiceForm, setInvoiceForm] = useState({
-    productValue: "",
-    priceValue: 0,
-    quantityValue: 0,
-  });
+  
   const [total, setTotal] = useState(0);
-  const { productValue, priceValue, quantityValue } = invoiceForm;
 
   useEffect(() => {
     const data = getInvoice();
@@ -51,34 +47,14 @@ export function InvoiceApp() {
   }, []);
 
   useEffect(()=>{
-    console.log('los items cambiaron')
-  }, [invoiceForm])
-
-  useEffect(()=>{
-    console.log('computing total')
-    console.log(computeTotal(items))
     setTotal(computeTotal(items))
   }, [items])
 
-  const onChange = ({ target: { value, name } }) => {
-    setInvoiceForm({
-      ...invoiceForm,
-      [name + "Value"]: value,
-    });
-  };
-
-  const onInvoiceSubmit = (e) => {
-    e.preventDefault();
+  const addItems = ({productValue, priceValue, quantityValue}) => {
     setItems([
       ...items,
       { product: productValue, price: priceValue, quantity: quantityValue },
     ]);
-    setInvoiceForm({
-      productValue: "",
-      priceValue: 0,
-      quantityValue: 0,
-    });
-    console.log(items);
   };
 
   return (
@@ -98,39 +74,7 @@ export function InvoiceApp() {
             </div>
             <ListItems items={items}></ListItems>
             <TotalView total={total}></TotalView>
-
-            <form className="w-50" onSubmit={onInvoiceSubmit}>
-              <label htmlFor="product">Producto: </label>
-              <input
-                className="form-control my-2"
-                type="text"
-                name="product"
-                placeholder="producto"
-                value={productValue}
-                onChange={onChange}
-              />
-              <label htmlFor="price">Precio: </label>
-              <input
-                className="form-control mb-2"
-                type="text"
-                name="price"
-                placeholder="precio"
-                value={priceValue}
-                onChange={onChange}
-              />
-              <label htmlFor="quantity">Cantidad: </label>
-              <input
-                className="form-control"
-                type="text"
-                name="quantity"
-                placeholder="cantidad"
-                value={quantityValue}
-                onChange={onChange}
-              />
-              <button className="mt-4 btn btn-primary" type="submit">
-                Agregar
-              </button>
-            </form>
+            <FormItems handler={addItems} ></FormItems>
           </div>
         </div>
       </div>
