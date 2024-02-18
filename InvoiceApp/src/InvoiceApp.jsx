@@ -30,6 +30,8 @@ const invoiceInital = {
 export function InvoiceApp() {
   const [invoice, setInvoice] = useState(invoiceInital);
 
+  const [activeForm, setActiveForm ] = useState(false);
+
   const {
     id,
     name,
@@ -57,6 +59,14 @@ export function InvoiceApp() {
     ]);
   };
 
+  const deleteItems = (name) => {
+    setItems(items.filter(item=>item.product != name))
+  }
+
+  const onActiveForm = () => {
+    setActiveForm(!activeForm);
+  }
+
   return (
     <>
       <div className="container my-4">
@@ -72,9 +82,11 @@ export function InvoiceApp() {
                 <CompanyDetail company={company}></CompanyDetail>
               </div>
             </div>
-            <ListItems items={items}></ListItems>
+            <ListItems handlerDelete={deleteItems} items={items}></ListItems>
             <TotalView total={total}></TotalView>
-            <FormItems handler={addItems} ></FormItems>
+            <button onClick={onActiveForm} className="btn btn-secondary">{ !activeForm?'Agregar Item':'Cerrar formulario' }</button>
+            { !activeForm || <FormItems handler={addItems} ></FormItems> }
+            
           </div>
         </div>
       </div>

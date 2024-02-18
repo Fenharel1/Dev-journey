@@ -1,6 +1,6 @@
 import { RowItem } from "./RowItem";
 
-export function ListItems({items}) {
+export function ListItems({items, handlerDelete}) {
   return (
     <>
       <h4>Productos de la factura</h4>
@@ -15,7 +15,7 @@ export function ListItems({items}) {
         <tbody>
           {items.map((item, idx) => {
             return (
-              <RowItem item={item} key={idx}></RowItem>
+              <RowItem onDelete={handlerDelete} item={item} key={idx}></RowItem>
             );
           })}
         </tbody>

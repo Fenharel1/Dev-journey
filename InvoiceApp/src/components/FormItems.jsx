@@ -29,7 +29,7 @@ export function FormItems({handler}) {
 
   return (
     <>
-      <form className="w-50" onSubmit={onInvoiceSubmit}>
+      <form className="w-50 mt-4" onSubmit={onInvoiceSubmit}>
         <label htmlFor="product">Producto: </label>
         <input
           className="form-control my-2"
