@@ -24,7 +24,7 @@ export const Invoice = {
     {
       product: "Corsair Keyboard Mechanic",
       price: 150,
-      quantity: 1,
+      quantity:2,
     },
     {
       product: "Monitor asus",
