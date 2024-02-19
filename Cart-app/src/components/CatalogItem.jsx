@@ -1,4 +1,4 @@
-export const CatalogItem = ({name, description, price}) => {
+export const CatalogItem = ({name, description, price, onAddBtn}) => {
   return (
     <>
       <div className="card">
@@ -6,7 +6,7 @@ export const CatalogItem = ({name, description, price}) => {
           <h5 className="card-title">{name}</h5>
           <p className="card-text">{description}</p>
           <p className="card-text">$ {price}</p>
-          <button className="btn btn-primary">Agregar al carro</button>
+          <button onClick={e=>onAddBtn({name, description, price})} className="btn btn-primary">Agregar al carro</button>
         </div>
       </div>
     </>

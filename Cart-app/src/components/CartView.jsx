@@ -1,4 +1,13 @@
-export const CartView = () => {
+import { useEffect } from "react";
+import { calculateTotal } from "../services/productService";
+
+export const CartView = ({ items, handleDelete }) => {
+
+  useEffect(()=>{
+    console.log('updating', items.length)
+    sessionStorage.setItem('cart', JSON.stringify(items)); 
+  }, [items])
+
   return (
     <>
       <h3>Carro de compra</h3>
@@ -13,13 +22,17 @@ export const CartView = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>nombre</td>
-            <td>precio</td>
-            <td>cantidad</td>
-            <td>total</td>
-            <td>eliminar</td>
-          </tr>
+          {items.map((item, idx) => (
+            <tr key={idx}>
+              <td>{item.product.name}</td>
+              <td>{item.product.price}</td>
+              <td>{item.quantity}</td>
+              <td>{Number(item.product.price) * Number(item.quantity)}</td>
+              <td>
+                <button onClick={e=>handleDelete(item.product.name)}  className="btn btn-danger">Eliminar</button>
+              </td>
+            </tr>
+          ))}
         </tbody>
         <tfoot>
           <tr>
@@ -27,7 +40,7 @@ export const CartView = () => {
               Total
             </td>
             <td colSpan="2" className="text-end fw-bold">
-              12345
+              {calculateTotal(items)}
             </td>
           </tr>
         </tfoot>
