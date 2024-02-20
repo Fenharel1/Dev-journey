@@ -1,41 +1,39 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-
-
-export const UserForm = ({handlerAddUser, initialUserForm}) => {
+export const UserForm = ({ handlerAddUser, initialUserForm, handlerClose }) => {
   const [userForm, setUserForm] = useState(initialUserForm);
 
-  const {id, username, password, email} = userForm;
+  const { id, username, password, email } = userForm;
 
-  const onInputChange = ({target: {value, name}}) => {
+  const onInputChange = ({ target: { value, name } }) => {
     setUserForm({
       ...userForm,
-      [name]: value
-    })
-  }
+      [name]: value,
+    });
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    if(!username || ( id == 0 && !password) || !email){
+    if (!username || (id == 0 && !password) || !email) {
       Swal.fire(
-        'Error de validacion',
-        'Debe completar los campos del formulario!',
-        'error'
-      )
-    }else{
-      handlerAddUser(userForm)
+        "Error de validacion",
+        "Debe completar los campos del formulario!",
+        "error"
+      );
+    } else {
+      handlerAddUser(userForm);
     }
-    setUserForm( initialUserForm)
-  }
+    setUserForm(initialUserForm);
+  };
 
-  useEffect(()=>{
-    setUserForm({...initialUserForm, password: ''});
-  }, [initialUserForm])
+  useEffect(() => {
+    setUserForm({ ...initialUserForm, password: "" });
+  }, [initialUserForm]);
 
   return (
-    <form onSubmit={onSubmit} >
+    <form onSubmit={onSubmit}>
       <input
         type="text"
         className="form-control my-3 w-75"
@@ -44,8 +42,7 @@ export const UserForm = ({handlerAddUser, initialUserForm}) => {
         value={username}
         onChange={onInputChange}
       />
-      {
-        id > 0 || 
+      {id > 0 || (
         <input
           type="password"
           className="form-control my-3 w-75"
@@ -54,7 +51,7 @@ export const UserForm = ({handlerAddUser, initialUserForm}) => {
           value={password}
           onChange={onInputChange}
         />
-      }
+      )}
       <input
         type="text"
         className="form-control my-3 w-75"
@@ -64,10 +61,15 @@ export const UserForm = ({handlerAddUser, initialUserForm}) => {
         onChange={onInputChange}
       />
       <input type="hidden" valu={id} name="id" />
-      <button 
-        className="btn btn-primary" 
-        type="submit">
-          {id > 0 ? 'Editar' : 'Crear'}
+      <button className="btn btn-primary" type="submit">
+        {id > 0 ? "Editar" : "Crear"}
+      </button>
+      <button
+        type="button"
+        className="btn btn-primary mx-2"
+        onClick={handlerClose}
+      >
+        Cerrar
       </button>
     </form>
   );
