@@ -1,13 +1,16 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { UsersApp } from './UsersApp.jsx'
-import './styles.css'
-import { BrowserRouter } from 'react-router-dom'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { UsersApp } from "./UsersApp.jsx";
+import "./styles.css";
+import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./auth/context/AuthProvider.jsx";
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
-      <UsersApp />
+      <AuthProvider>
+        <UsersApp />
+      </AuthProvider>
     </BrowserRouter>
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);
