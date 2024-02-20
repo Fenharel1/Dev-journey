@@ -1,0 +1,31 @@
+html{
+  height: auto;
+  min-height: 100%;
+}
+
+body{
+  /* background: linear-gradient(#f72585, #3a0ca3); */
+  /* background: linear-gradient(90deg, #f72585, #3a0ca3); */
+  /* background: linear-gradient(green, yellow, blue); */
+  /* background: linear-gradient(145deg, purple, pink); */
+  background: radial-gradient(circle, #0d47a1, #42a5f5);
+  /* background-attachment: fixed; */
+}
+
+h1{
+  text-align: center;
+  color: aliceblue;
+  text-shadow: 3px 3px 3px black;
+}
+
+div.contenedor{
+  width: 30%;
+  height: 20%;
+  margin: auto;
+  border: 3px solid #a8dadc;
+  padding: 15px;
+  text-align: center;
+
+  box-shadow: 3px 3px 5px 2px black;
+}
+
