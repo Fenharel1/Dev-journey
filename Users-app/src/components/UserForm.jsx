@@ -64,13 +64,16 @@ export const UserForm = ({ handlerAddUser, initialUserForm, handlerClose }) => {
       <button className="btn btn-primary" type="submit">
         {id > 0 ? "Editar" : "Crear"}
       </button>
-      <button
-        type="button"
-        className="btn btn-primary mx-2"
-        onClick={handlerClose}
-      >
-        Cerrar
-      </button>
+
+      {!handlerClose || (
+        <button
+          type="button"
+          className="btn btn-primary mx-2"
+          onClick={handlerClose}
+        >
+          Cerrar
+        </button>
+      )}
     </form>
   );
 };

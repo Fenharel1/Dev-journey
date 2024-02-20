@@ -9,6 +9,7 @@ export function UsersList({ users, handlerRemoveUser, handlerUserSelected }) {
           <th>Username</th>
           <th>email</th>
           <th>update</th>
+          <th>update route</th>
           <th>remove</th>
         </tr>
       </thead>

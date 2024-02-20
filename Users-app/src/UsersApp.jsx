@@ -1,52 +1,35 @@
-import { UserForm } from "./components/UserForm";
-import { UsersList } from "./components/UsersList";
-import { useUsers } from "./hooks/useUsers";
+import { LoginPage } from "./auth/pages/LoginPage";
+import { useAuth } from "./auth/hooks/useAuth";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { UserRoutes } from "./routes/UserRoutes";
 
 export const UsersApp = () => {
-  const {
-    users,
-    userSelected,
-    visibleForm,
-    handlerAddUser,
-    handlerRemoveUser,
-    handlerUserSelected,
-    handlerOpenForm,
-    handlerCloseForm
-  } = useUsers();
+  const { login, handlerLogin, handlerLogout } = useAuth();
 
   return (
-    <div className="container my-4">
-      <h2>Users App</h2>
-      <div className="row">
-          {!visibleForm || (
-        <div className="col">
-            <UserForm
-              initialUserForm={userSelected}
-              handlerAddUser={handlerAddUser}
-              handlerClose={handlerCloseForm}
-            ></UserForm>
-        </div>
-          )}
-        <div className="col">
-          {visibleForm || (
-            <button className="btn btn-primary my-2"
-            onClick={handlerOpenForm}
-            >Nuevo Usuario</button>
-          )}
-          {users.length == 0 ? (
-            <div className="alert alert-warning">
-              {" "}
-              No hay usuarios en el sistema
-            </div>
-          ) : (
-            <UsersList
-              handlerRemoveUser={handlerRemoveUser}
-              handlerUserSelected={handlerUserSelected}
-              users={users}
-            ></UsersList>
-          )}
-        </div>
-      </div>
-    </div>
+    <Routes>
+      {login.isAuth ? (
+        <Route
+          path="/*"
+          element={
+            <UserRoutes
+              login={login}
+              handlerLogout={handlerLogout}
+            ></UserRoutes>
+          }
+        ></Route>
+      ) : (
+        <>
+          <Route
+            path="/login"
+            element={<LoginPage handlerLogin={handlerLogin}></LoginPage>}
+          ></Route>
+          <Route
+            path="/*"
+            element={ <Navigate to="/login"></Navigate> }
+          ></Route>
+        </>
+      )}
+    </Routes>
   );
 };
