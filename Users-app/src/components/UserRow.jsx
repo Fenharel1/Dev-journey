@@ -1,11 +1,13 @@
-export function UserRow({user, handlerRemoveUser}) {
+export function UserRow({user, handlerRemoveUser, handlerUserSelected}) {
   return (
     <tr >
       <td> {user.id} </td>
       <td> {user.username} </td>
       <td> {user.email} </td>
       <td>
-        <button type="button" className="btn btn-secondary btn-sm">
+        <button 
+          onClick={e=>handlerUserSelected({...user,password:''})}
+          type="button" className="btn btn-secondary btn-sm">
           update
         </button>
       </td>

@@ -1,6 +1,6 @@
 import { UserRow } from "./UserRow";
 
-export function UsersList({ users, handlerRemoveUser }) {
+export function UsersList({ users, handlerRemoveUser, handlerUserSelected }) {
   return (
     <table className="table table-hover table-striped">
       <thead>
@@ -14,7 +14,7 @@ export function UsersList({ users, handlerRemoveUser }) {
       </thead>
       <tbody>
         {users.map((user) => (
-          <UserRow handlerRemoveUser={handlerRemoveUser} key={user.id} user={user}></UserRow>
+          <UserRow handlerUserSelected={handlerUserSelected} handlerRemoveUser={handlerRemoveUser} key={user.id} user={{...user,password:''}}></UserRow>
         ))}
       </tbody>
     </table>
