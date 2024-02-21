@@ -5,7 +5,7 @@ export const usersReducer = (state = [], action) => {
         ...state,
         {
           ...action.payload,
-          id: new Date().getTime(),
+          // id: new Date().getTime(),
         },
       ];
     case "remove":
@@ -15,6 +15,8 @@ export const usersReducer = (state = [], action) => {
         if(u.id == action.payload.id) return {...action.payload, password: u.password}
         return u;
       })
+    case "load":
+      return action.payload
     default:
       return state;
   }

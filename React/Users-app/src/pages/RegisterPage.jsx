@@ -4,15 +4,19 @@ import { useParams } from 'react-router-dom'
 import { UserContext } from "../context/UserContext";
 
 export function RegisterPage() {
-  const { users = [], initialUserForm } = useContext(UserContext);
+  const { initialUserForm, getUser } = useContext(UserContext);
   const [userSelected, setUserSelected] = useState(initialUserForm);
   const {id} = useParams()
 
-  useEffect(()=>{
+  const getUserToEdit = async () => {
     if(id){
-      const user = users.find(u=>u.id == id) || initialUserForm;
-      setUserSelected(user)
+      const userToFind = await getUser(id);
+      if(userToFind) setUserSelected(userToFind.data)
     }
+  }
+
+  useEffect(()=>{
+    getUserToEdit();
   }, [id])
 
   return (

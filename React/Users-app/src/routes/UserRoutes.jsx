@@ -2,11 +2,11 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { UsersPage } from "../pages/UsersPage";
 import { Navbar } from "../components/layout/Navbar";
 import { RegisterPage } from "../pages/RegisterPage";
-import { useUsers } from "../hooks/useUsers";
 import { UserProvider } from "../context/UserProvider";
+import { useContext, useEffect } from "react";
+import { UserContext } from "../context/UserContext";
 
 export const UserRoutes = () => {
-
   return (
     <>
       <UserProvider>

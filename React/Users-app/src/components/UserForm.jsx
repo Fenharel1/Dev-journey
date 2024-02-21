@@ -4,7 +4,7 @@ import { UserContext } from "../context/UserContext";
 
 export const UserForm = ({userSelected, handlerClose}) => {
 
-  const { handlerAddUser } = useContext(UserContext);
+  const { handlerAddUser, errors } = useContext(UserContext);
 
   const [userForm, setUserForm] = useState(userSelected);
 
@@ -20,16 +20,16 @@ export const UserForm = ({userSelected, handlerClose}) => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    if (!username || (id == 0 && !password) || !email) {
-      Swal.fire(
-        "Error de validacion",
-        "Debe completar los campos del formulario!",
-        "error"
-      );
-    } else {
-      handlerAddUser(userForm);
-    }
-    setUserForm(userSelected);
+    // if (!username || (id == 0 && !password) || !email) {
+    //   Swal.fire(
+    //     "Error de validacion",
+    //     "Debe completar los campos del formulario!",
+    //     "error"
+    //   );
+    //   return
+    // } 
+    handlerAddUser(userForm);
+    // setUserForm(userSelected);
   };
 
   useEffect(() => {
@@ -46,6 +46,7 @@ export const UserForm = ({userSelected, handlerClose}) => {
         value={username}
         onChange={onInputChange}
       />
+      <p className="text-danger">{errors?.username}</p>
       {id > 0 || (
         <input
           type="password"
@@ -56,6 +57,7 @@ export const UserForm = ({userSelected, handlerClose}) => {
           onChange={onInputChange}
         />
       )}
+      <p className="text-danger">{errors?.password}</p>
       <input
         type="text"
         className="form-control my-3 w-75"
@@ -64,6 +66,7 @@ export const UserForm = ({userSelected, handlerClose}) => {
         value={email}
         onChange={onInputChange}
       />
+      <p className="text-danger">{errors?.email}</p>
       <input type="hidden" valu={id} name="id" />
       <button className="btn btn-primary" type="submit">
         {id > 0 ? "Editar" : "Crear"}

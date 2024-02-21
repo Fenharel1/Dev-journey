@@ -1,8 +1,7 @@
 
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { UserModalForm } from "../components/UserModalForm";
 import { UsersList } from "../components/UsersList";
-import { useUsers } from "../hooks/useUsers";
 import { UserContext } from "../context/UserContext";
 
 export const UsersPage = () => {
@@ -11,7 +10,12 @@ export const UsersPage = () => {
     users,
     visibleForm,
     handlerOpenForm,
+    getUsers,
   } = useContext(UserContext);
+  
+  useEffect(()=>{
+    getUsers();
+  },[]);
 
   return (
     <>
