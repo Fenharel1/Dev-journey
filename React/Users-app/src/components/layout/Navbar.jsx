@@ -25,21 +25,28 @@ export function Navbar() {
         <div className="collapse navbar-collapse" id="navbarNavLinks">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <NavLink className="nav-link" to="/users">Usuarios</NavLink>
+              <NavLink className="nav-link" to="/users">
+                Usuarios
+              </NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/users/register">Registrar usuarios</NavLink>
-            </li>
-          </ul> 
+            {!login.isAdmin || (
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/users/register">
+                  Registrar usuarios
+                </NavLink>
+              </li>
+            )}
+          </ul>
         </div>
 
-        <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <div
+          className="collapse navbar-collapse justify-content-end"
+          id="navbarNav"
+        >
           <span className="nav-item nav-link text-primary mx-3">
             {login.user?.username}
-          </span> 
-          <button 
-            onClick={handlerLogout}
-            className="btn btn-outline-success">
+          </span>
+          <button onClick={handlerLogout} className="btn btn-outline-success">
             Logout
           </button>
         </div>

@@ -1,8 +1,9 @@
-import { useReducer, useState } from "react";
+import { useContext, useReducer, useState } from "react";
 import { usersReducer } from "../reducers/usersReducer";
 import Swal from "sweetalert2";
 import { findAll, remove, save, show, update } from "../services/userService";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../auth/context/AuthContext";
 
 const initialUsers = [];
 
@@ -11,12 +12,13 @@ const initialUserForm = {
   username: "",
   password: "",
   email: "",
+  admin: false,
 };
 
 const initialErrors = {
   name: "",
   password: "",
-  email: ""
+  email: "",
 };
 
 export const useUsers = () => {
@@ -24,13 +26,21 @@ export const useUsers = () => {
   const [userSelected, setUserSelected] = useState(initialUserForm);
   const [visibleForm, setVisibleForm] = useState(false);
 
-  const [errors, setErrors] = useState(initialErrors)
+  const [errors, setErrors] = useState(initialErrors);
+
+  const { login, handlerLogout } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
   const getUsers = async () => {
-    const result = await findAll();
-    dispatch({ type: "load", payload: result.data });
+    try {
+      const result = await findAll();
+      dispatch({ type: "load", payload: result.data });
+    } catch (error) {
+      if (error.response?.status == 401) {
+        handlerLogout();
+      }
+    }
   };
 
   const getUser = async (id) => {
@@ -39,6 +49,7 @@ export const useUsers = () => {
   };
 
   const handlerAddUser = async (user) => {
+    if (!login.isAdmin) return;
     const type = user.id == 0 ? "add" : "update";
     let response;
 
@@ -60,21 +71,27 @@ export const useUsers = () => {
       handlerCloseForm();
       navigate("/users");
     } catch (error) {
-      if(error.response?.status == 400){
-        setErrors(error.response?.data)
-      }else if (error.response?.status == 500 && error.response?.data?.message.includes("constraint")) {
-        if(error.response?.data?.message.includes('UK_username'))
-          setErrors({username:'El username ya existe'})
-        if(error.response?.data?.message.includes('UK_email'))
-          setErrors({email: 'El email ya existe'})
-        console.log(errors)
-      }else{
+      if (error.response?.status == 400) {
+        setErrors(error.response?.data);
+      } else if (
+        error.response?.status == 500 &&
+        error.response?.data?.message.includes("constraint")
+      ) {
+        if (error.response?.data?.message.includes("UK_username"))
+          setErrors({ username: "El username ya existe" });
+        if (error.response?.data?.message.includes("UK_email"))
+          setErrors({ email: "El email ya existe" });
+        console.log(errors);
+      } else if (error.response?.status == 401) {
+        handlerLogout();
+      } else {
         throw error;
       }
     }
   };
 
   const handlerRemoveUser = (id) => {
+    if (!login.isAdmin) return;
     Swal.fire({
       title: "Esta seguro ?",
       text: "No seras capaz de revertir esto",
@@ -83,11 +100,17 @@ export const useUsers = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Si, eliminar !",
-    }).then((res) => {
+    }).then(async (res) => {
       if (res.isConfirmed) {
-        remove(id);
-        dispatch({ type: "remove", payload: id });
-        Swal.fire("Eliminado", "El usuario ha sido eliminado", "success");
+        try {
+          await remove(id);
+          dispatch({ type: "remove", payload: id });
+          Swal.fire("Eliminado", "El usuario ha sido eliminado", "success");
+        } catch (error) {
+          if (error.response?.status == 401) {
+            handlerLogout();
+          }
+        }
       }
     });
   };
@@ -104,8 +127,8 @@ export const useUsers = () => {
   const handlerCloseForm = () => {
     setVisibleForm(false);
     setUserSelected(initialUserForm);
-    setErrors({})
-  };  
+    setErrors({});
+  };
 
   return {
     users,

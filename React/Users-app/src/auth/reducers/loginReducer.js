@@ -3,7 +3,8 @@ export function loginReducer(state = {}, action){
     case 'login':
       return {
         isAuth: true,
-        user: action.payload
+        isAdmin: action.payload.isAdmin,
+        user: action.payload.user
       };
     case 'logout':
       return {
