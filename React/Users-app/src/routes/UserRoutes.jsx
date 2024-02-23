@@ -5,15 +5,18 @@ import { RegisterPage } from "../pages/RegisterPage";
 import { UserProvider } from "../context/UserProvider";
 import { useContext } from "react";
 import { AuthContext } from "../auth/context/AuthContext";
+import { useAuth } from "../auth/hooks/useAuth";
 
 export const UserRoutes = () => {
-  const { login } = useContext(AuthContext);
+  // const { login } = useContext(AuthContext);
+  const { login } = useAuth();
   return (
     <>
-      <UserProvider>
+      {/* <UserProvider> */}
         <Navbar></Navbar>
         <Routes>
           <Route path="users" element={<UsersPage></UsersPage>} />
+          <Route path="users/page/:page" element={<UsersPage></UsersPage>} />
           {!login.isAdmin || (
             <>
               <Route
@@ -27,8 +30,8 @@ export const UserRoutes = () => {
             </>
           )}
           <Route path="/*" element={<Navigate to="/users"></Navigate>}></Route>
-        </Routes>{" "}
-      </UserProvider>
+        </Routes>
+      {/* </UserProvider> */}
     </>
   );
 };

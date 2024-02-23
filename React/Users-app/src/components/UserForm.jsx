@@ -1,9 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
+import { useUsers } from "../hooks/useUsers";
 
 export const UserForm = ({userSelected, handlerClose}) => {
 
-  const { handlerAddUser, errors } = useContext(UserContext);
+  // const { handlerAddUser, errors } = useContext(UserContext);
+  const { handlerAddUser, errors } = useUsers();
 
   const [userForm, setUserForm] = useState(userSelected);
 

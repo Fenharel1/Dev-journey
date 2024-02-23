@@ -1,41 +1,25 @@
 import { useContext, useReducer, useState } from "react";
-import { usersReducer } from "../reducers/usersReducer";
 import Swal from "sweetalert2";
-import { findAll, remove, save, show, update } from "../services/userService";
+import { findAll, findAllPages, remove, save, show, update } from "../services/userService";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../auth/context/AuthContext";
-
-const initialUsers = [];
-
-const initialUserForm = {
-  id: 0,
-  username: "",
-  password: "",
-  email: "",
-  admin: false,
-};
-
-const initialErrors = {
-  name: "",
-  password: "",
-  email: "",
-};
+import { useDispatch, useSelector } from 'react-redux';
+import { initialUserForm, addUser, removeUser, updateUser, load, onUserSelectedForm, onOpenForm, onCloseForm, loadError } from '../store/slices/users/usersSlice'
+import { useAuth } from '../auth/hooks/useAuth'
 
 export const useUsers = () => {
-  const [users, dispatch] = useReducer(usersReducer, initialUsers);
-  const [userSelected, setUserSelected] = useState(initialUserForm);
-  const [visibleForm, setVisibleForm] = useState(false);
+  const { users, userSelected, visibleForm, errors, isLoading, paginator } = useSelector(state => state.users);
+  const dispatch = useDispatch();
 
-  const [errors, setErrors] = useState(initialErrors);
-
-  const { login, handlerLogout } = useContext(AuthContext);
+  // const { login, handlerLogout } = useContext(AuthContext);
+  const { login, handlerLogout } = useAuth();
 
   const navigate = useNavigate();
 
-  const getUsers = async () => {
+  const getUsers = async (page = 0) => {
     try {
-      const result = await findAll();
-      dispatch({ type: "load", payload: result.data });
+      const result = await findAllPages(page);
+      dispatch(load(result.data));
     } catch (error) {
       if (error.response?.status == 401) {
         handlerLogout();
@@ -56,11 +40,12 @@ export const useUsers = () => {
     try {
       if (type == "add") {
         response = await save(user);
+        dispatch(addUser(response.data));
       } else if (type == "update") {
         response = await update(user);
+        dispatch(updateUser(response.data));
       }
 
-      dispatch({ type, payload: response.data });
       Swal.fire(
         user.id == 0 ? "Usuario creado" : "Usuario actualizado",
         user.id == 0
@@ -72,16 +57,15 @@ export const useUsers = () => {
       navigate("/users");
     } catch (error) {
       if (error.response?.status == 400) {
-        setErrors(error.response?.data);
+        dispatch(loadError(error.response?.data))
       } else if (
         error.response?.status == 500 &&
         error.response?.data?.message.includes("constraint")
       ) {
         if (error.response?.data?.message.includes("UK_username"))
-          setErrors({ username: "El username ya existe" });
+          dispatch(loadError({ username: "El username ya existe" }));
         if (error.response?.data?.message.includes("UK_email"))
-          setErrors({ email: "El email ya existe" });
-        console.log(errors);
+          dispatch(loadError({ email: "El email ya existe" }));
       } else if (error.response?.status == 401) {
         handlerLogout();
       } else {
@@ -104,7 +88,7 @@ export const useUsers = () => {
       if (res.isConfirmed) {
         try {
           await remove(id);
-          dispatch({ type: "remove", payload: id });
+          dispatch(removeUser(id));
           Swal.fire("Eliminado", "El usuario ha sido eliminado", "success");
         } catch (error) {
           if (error.response?.status == 401) {
@@ -116,18 +100,16 @@ export const useUsers = () => {
   };
 
   const handlerUserSelected = (user) => {
-    setUserSelected({ ...user });
-    setVisibleForm(true);
+    dispatch(onUserSelectedForm({...user}))
   };
 
   const handlerOpenForm = () => {
-    setVisibleForm(true);
+    dispatch(onOpenForm())
   };
 
   const handlerCloseForm = () => {
-    setVisibleForm(false);
-    setUserSelected(initialUserForm);
-    setErrors({});
+    dispatch(onCloseForm());
+    dispatch(loadError({}));
   };
 
   return {
@@ -136,6 +118,8 @@ export const useUsers = () => {
     initialUserForm,
     visibleForm,
     errors,
+    isLoading,
+    paginator,
     handlerAddUser,
     handlerRemoveUser,
     handlerUserSelected,
