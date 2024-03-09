@@ -27,39 +27,41 @@ const modelPath5 = '/models/Amongus/amongus.glb'
 
 const dracomodel = '/models/Duck/glTF-Draco/Duck.gltf'
 
-const dracoLoader = new DRACOLoader();
-dracoLoader.setDecoderPath('/draco/')
 
 const gltfLoader = new GLTFLoader();
-gltfLoader.setDRACOLoader(dracoLoader);
 
 let mixer = null
-gltfLoader.load(modelPath2,
+gltfLoader.load('/models/habitacion_02.glb',
     (gltf) => {
         
-        // mixer = new THREE.AnimationMixer(gltf.scene)
-        // const action = mixer.clipAction(gltf.animations[2])
-
-        // action.play();
-
-        gltf.scene.scale.set(0.025, 0.025, 0.025)
+        gltf.scene.scale.set(0.55, 0.55, 0.55)
         scene.add(gltf.scene)
+        updateAllMaterials()
     })
 
+const updateAllMaterials = () => {
+    scene.traverse((child)=>{
+        try {
+            child.castShadow = true;
+            child.receiveShadow = true;
+        } catch (error) {
+        }
+    })
+}
 /**
  * Floor
  */
-const floor = new THREE.Mesh(
-    new THREE.PlaneGeometry(10, 10),
-    new THREE.MeshStandardMaterial({
-        color: '#444444',
-        metalness: 0,
-        roughness: 0.5
-    })
-)
-floor.receiveShadow = true
-floor.rotation.x = - Math.PI * 0.5
-scene.add(floor)
+// const floor = new THREE.Mesh(
+//     new THREE.PlaneGeometry(10, 10),
+//     new THREE.MeshStandardMaterial({
+//         color: '#444444',
+//         metalness: 0,
+//         roughness: 0.5
+//     })
+// )
+// floor.receiveShadow = true
+// floor.rotation.x = - Math.PI * 0.5
+// scene.add(floor)
 
 /**
  * Lights
@@ -85,6 +87,15 @@ guiDL.add(directionalLight, 'intensity', 0, 9, 0.01)
 guiDL.add(directionalLight.position, 'x', -30, 30, 0.01)
 guiDL.add(directionalLight.position, 'y', -30, 30, 0.01)
 guiDL.add(directionalLight.position, 'z', -30, 30, 0.01)
+guiDL.add(directionalLight.shadow,'normalBias').min(-0.05).max(0.05).step(0.001);
+guiDL.add(directionalLight.shadow,'bias').min(-0.05).max(0.05).step(0.001);
+
+directionalLight.shadow.normalBias = 0.032;
+directionalLight.shadow.bias = -0.01
+directionalLight.shadow.mapSize.width = 2048;
+directionalLight.shadow.mapSize.height = 2048;
+directionalLight.shadow.camera.far = 20;
+
 
 /**
  * Sizes
@@ -126,7 +137,8 @@ controls.enableDamping = true
  * Renderer
  */
 const renderer = new THREE.WebGLRenderer({
-    canvas: canvas
+    canvas: canvas,
+    antialias: true
 })
 renderer.shadowMap.enabled = true
 renderer.shadowMap.type = THREE.PCFSoftShadowMap
