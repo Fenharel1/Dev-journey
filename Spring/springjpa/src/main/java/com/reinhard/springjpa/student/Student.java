@@ -1,8 +1,10 @@
-package com.reinhard.springjpa;
+package com.reinhard.springjpa.student;
 
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.reinhard.springjpa.school.School;
+import com.reinhard.springjpa.studentprofile.StudentProfile;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

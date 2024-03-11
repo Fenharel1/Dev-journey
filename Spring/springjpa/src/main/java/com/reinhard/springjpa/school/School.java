@@ -1,8 +1,9 @@
-package com.reinhard.springjpa;
+package com.reinhard.springjpa.school;
 
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.reinhard.springjpa.student.Student;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

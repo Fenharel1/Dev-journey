@@ -1,4 +1,4 @@
-package com.reinhard.springjpa;
+package com.reinhard.springjpa.school;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

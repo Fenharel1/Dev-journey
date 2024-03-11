@@ -1,4 +1,4 @@
-package com.reinhard.springjpa;
+package com.reinhard.springjpa.student;
 
 public record StudentDto(
   String firstname, 

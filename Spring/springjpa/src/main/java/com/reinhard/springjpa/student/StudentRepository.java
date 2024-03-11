@@ -1,4 +1,4 @@
-package com.reinhard.springjpa;
+package com.reinhard.springjpa.student;
 
 import java.util.List;
 

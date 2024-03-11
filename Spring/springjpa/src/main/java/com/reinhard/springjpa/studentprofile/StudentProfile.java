@@ -1,4 +1,6 @@
-package com.reinhard.springjpa;
+package com.reinhard.springjpa.studentprofile;
+
+import com.reinhard.springjpa.student.Student;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
