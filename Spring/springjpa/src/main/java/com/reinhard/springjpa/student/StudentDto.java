@@ -3,7 +3,7 @@ package com.reinhard.springjpa.student;
 import jakarta.validation.constraints.NotEmpty;
 
 public record StudentDto(
-  @NotEmpty(message = "ponele un nombre malpario")
+  @NotEmpty
   String firstname, 
   @NotEmpty
   String lastname,

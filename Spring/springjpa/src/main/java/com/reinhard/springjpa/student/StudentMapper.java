@@ -9,6 +9,7 @@ import com.reinhard.springjpa.school.School;
 @Service
 public class StudentMapper {
   public Student toStudent(StudentDto dto) {
+    if(dto == null) throw new NullPointerException("the student shouldn't be null");
     var student = new Student();
 
     var school = new School();

@@ -15,9 +15,9 @@ public class StudentService {
   }
 
   public StudentResponseDto saveStudent(StudentDto dto){
-    return studentMapper.toStudentResponseDto(
-      repository.save(studentMapper.toStudent(dto))
-      );
+    var studentSaved = repository.save(studentMapper.toStudent(dto));
+    var studentResponse = studentMapper.toStudentResponseDto(studentSaved);
+    return studentResponse;
   }
 
   public List<StudentResponseDto> getStudents(){
