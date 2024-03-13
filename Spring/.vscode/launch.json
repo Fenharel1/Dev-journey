@@ -2,6 +2,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "BackendUsersappApplication",
+      "request": "launch",
+      "mainClass": "com.reinhard.backend.usersapp.backendusersapp.BackendUsersappApplication",
+      "projectName": "backend-usersapp"
+    },
+    {
+      "type": "java",
       "name": "Spring Boot-BackendCartappApplication<backend-cartapp>",
       "request": "launch",
       "cwd": "${workspaceFolder}",
