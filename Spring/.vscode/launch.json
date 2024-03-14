@@ -16,6 +16,16 @@
       "projectName": "backend-cartapp",
       "args": "",
       "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-SpringSecurityApplication<spring-security>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.reinhard.springsecurity.SpringSecurityApplication",
+      "projectName": "spring-security",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
     }
   ]
 }
