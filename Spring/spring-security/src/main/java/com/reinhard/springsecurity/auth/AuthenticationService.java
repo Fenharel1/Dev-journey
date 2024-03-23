@@ -2,6 +2,7 @@ package com.reinhard.springsecurity.auth;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -44,8 +45,9 @@ public class AuthenticationService {
     try {
       authenticationManager.authenticate(
           new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-    } catch (Exception e) {
+    } catch (AuthenticationException e) {
       System.out.println(e.getMessage());
+      throw e;
     }
     // if I get to this point the user was correctly auth
     var user = repository.findByEmail(request.getEmail()).orElseThrow();
