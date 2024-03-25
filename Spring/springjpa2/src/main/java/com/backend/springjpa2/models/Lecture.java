@@ -24,7 +24,7 @@ public class Lecture extends BaseEntity {
   @JoinColumn(name = "sectionId")
   private Section section;
 
-  @OneToOne
-  @JoinColumn(name = "resourceId")
-  private Resource resource;
+  // @OneToOne
+  // @JoinColumn(name = "resourceId")
+  // private Resource resource;
 }
