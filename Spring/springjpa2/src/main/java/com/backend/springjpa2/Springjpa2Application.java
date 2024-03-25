@@ -45,18 +45,19 @@ public class Springjpa2Application {
 			// .build();
 			// videoRepo.save(video);
 			// Embedded types also so important
-			var res = authorRepo.findAllByFirstname("Lucienne");
-			System.out.println("================ Result ============");
-			// System.out.println(res.toString());
-			if (res instanceof List) {
-				res.forEach(a -> {
-					System.out.println(a.getFirstname());
-				});
-			} else {
-				// System.out.println(res.getFirstname());
-			}
-			System.out.println("================ EOF ============");
+			// var res = authorRepo.findAllByFirstname("Lucienne");
+			// System.out.println("================ Result ============");
+			// // System.out.println(res.toString());
+			// if (res instanceof List) {
+			// 	res.forEach(a -> {
+			// 		System.out.println(a.getFirstname());
+			// 	});
+			// } else {
+			// 	// System.out.println(res.getFirstname());
+			// }
+			// System.out.println("================ EOF ============");
 		};
+
 	}
 
 }
