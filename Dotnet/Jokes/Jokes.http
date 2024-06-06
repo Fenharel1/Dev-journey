@@ -1,0 +1,6 @@
+@Jokes_HostAddress = http://localhost:5252
+
+GET {{Jokes_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
