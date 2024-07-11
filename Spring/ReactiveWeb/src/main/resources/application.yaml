@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: ReactiveWeb
+  sql:
+    init:
+      schema-locations: classpath:sql/data.sql
+sec: sec00
