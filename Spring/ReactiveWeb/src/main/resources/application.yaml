@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: ReactiveWeb
+#  r2dbc:
+#    url: r2dbc:mysql://localhost:3306/db_react_web
+#    username: root
+#    password: mysecret
+  sql:
+    init:
+      data-locations: classpath:sql/data.sql
+sec: sec03
