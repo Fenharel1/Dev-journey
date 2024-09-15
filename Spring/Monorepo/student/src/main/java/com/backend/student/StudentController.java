@@ -14,10 +14,11 @@ public class StudentController {
 
   @GetMapping
   public StudentDto greetings() {
-    return modelMapper.toStudentDto(Student.builder()
-      .name("Reinhard")
-      .lastname("Conde")
-      .age(20)
-      .build());
+    return null;
+//    return modelMapper.toStudentDto(Student.builder()
+//      .name("Reinhard")
+//      .lastname("Conde")
+//      .age(20)
+//      .build());
   }
 }

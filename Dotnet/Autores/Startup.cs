@@ -1,3 +1,6 @@
+using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
+
 namespace Autores
 {
   public class Startup
@@ -11,7 +14,10 @@ namespace Autores
 
     public void ConfigureServices(IServiceCollection services)
     {
-      services.AddControllers();
+      services.AddControllers()
+        .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+      services.AddDbContext<AppDbContext>(options => 
+        options.UseSqlServer(Configuration.GetConnectionString("Database")));
       services.AddEndpointsApiExplorer();
       services.AddSwaggerGen();
     }
