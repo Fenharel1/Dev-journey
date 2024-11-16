@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Autores.Servicios;
 using Microsoft.EntityFrameworkCore;
 
 namespace Autores
@@ -14,6 +15,11 @@ namespace Autores
 
     public void ConfigureServices(IServiceCollection services)
     {
+      services.AddTransient<IService, ServiceA>();
+      services.AddTransient<ServiceTransient>();
+      services.AddSingleton<ServiceSingleton>();
+      services.AddScoped<ServiceScoped>();
+
       services.AddControllers()
         .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
       services.AddDbContext<AppDbContext>(options => 

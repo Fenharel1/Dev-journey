@@ -1,8 +1,8 @@
 package com.reinhard.jooq;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-//import com.reinhard.jooq.models.QStudent;
-//import com.reinhard.jooq.models.Student;
+import com.reinhard.jooq.models.QStudent;
+import com.reinhard.jooq.models.Student;
 import jakarta.persistence.EntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,31 +28,31 @@ public class JooqApplication {
   @Bean
   public CommandLineRunner commandLineRunner(JPAQueryFactory query) {
     return (args) -> {
-//      var qstudent = QStudent.student;
-//
-//      var all = query.select(qstudent)
-//        .from(qstudent)
-//        .fetchFirst()
-//        ;
-//      System.out.println("Aqui primer: " + all.toString());
-//
-//      Student newstuden = new Student();
-//      newstuden.id = 7L;
-//      newstuden.name = "reinhard";
-//      newstuden.lastname = "hola mundo";
-//
-//      var result = query.select(qstudent)
-//        .from(qstudent)
-//        .where(qstudent.age.between(12,16))
-//        .orderBy(qstudent.age.asc())
-//        .orderBy(qstudent.name.desc())
-////        .limit(2)
-////        .offset(2)
-//        .fetch().stream().toList();
-//
-//      result.stream().forEach(s -> {
-//        log.info("-> {}",s.toString());
-//      });
+      var qstudent = QStudent.student;
+
+      var all = query.select(qstudent)
+        .from(qstudent)
+        .fetchFirst()
+        ;
+      System.out.println("Aqui primer: " + all.toString());
+
+      Student newstuden = new Student();
+      newstuden.id = 7L;
+      newstuden.name = "reinhard";
+      newstuden.lastname = "hola mundo";
+
+      var result = query.select(qstudent)
+        .from(qstudent)
+        .where(qstudent.age.between(12,16))
+        .orderBy(qstudent.age.asc())
+        .orderBy(qstudent.name.desc())
+//        .limit(2)
+//        .offset(2)
+        .fetch().stream().toList();
+
+      result.stream().forEach(s -> {
+        log.info("-> {}",s.toString());
+      });
     };
   }
 

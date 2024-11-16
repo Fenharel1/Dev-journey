@@ -29,6 +29,7 @@ namespace Autores.Controllers
       if(!existAuthor) return BadRequest($"No existe el autor con id: {book.AutorId}");
 
       context.Add(book);
+      Console.WriteLine("hola mundo");
       await context.SaveChangesAsync();
       return book;
     }
